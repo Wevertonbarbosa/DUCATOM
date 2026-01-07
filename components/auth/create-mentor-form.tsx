@@ -1,0 +1,61 @@
+'use client';
+
+import type React from 'react';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { CreateAccountHeader } from './create-account-header';
+import { CreateMentorInputs } from './create-mentor-inputs';
+import { CreateAccountActions } from './create-account-actions';
+import { useCreateMentor } from '@/hooks/useCreateMentor';
+
+export function CreateMentorForm() {
+    const router = useRouter();
+    const { createMentor, loading } = useCreateMentor();
+
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        password: '',
+    });
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        const result = await createMentor(
+            formData.name,
+            formData.email,
+            formData.password
+        );
+
+        if (result) {
+            router.push('/');
+        }
+    };
+
+    const handleCancel = () => {
+        router.push('/');
+    };
+
+    return (
+        <div className="min-h-screen bg-[#083d71] flex items-center justify-center p-4">
+            <div className="w-full max-w-md space-y-8 md:space-y-10">
+                <CreateAccountHeader accountType="mentor" />
+
+                <form
+                    onSubmit={handleSubmit}
+                    className="space-y-6 md:space-y-8"
+                >
+                    <CreateMentorInputs
+                        formData={formData}
+                        setFormData={setFormData}
+                    />
+
+                    <CreateAccountActions
+                        loading={loading}
+                        onCancel={handleCancel}
+                    />
+                </form>
+            </div>
+        </div>
+    );
+}

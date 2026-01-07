@@ -1,0 +1,35 @@
+import { UserPlus, Music } from 'lucide-react';
+
+interface CreateAccountHeaderProps {
+    accountType: 'aluno' | 'mentor';
+}
+
+export function CreateAccountHeader({ accountType }: CreateAccountHeaderProps) {
+    const isStudent = accountType === 'aluno';
+
+    return (
+        <div className="text-center space-y-4 md:space-y-6">
+            <div className="flex justify-center">
+                <div className="w-16 h-16 md:w-20 md:h-20 bg-[#f0e087] rounded-full flex items-center justify-center">
+                    <UserPlus className="w-8 h-8 md:w-10 md:h-10 text-[#083d71]" />
+                </div>
+            </div>
+
+            <div className="space-y-2">
+                <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white">
+                    Criar Conta {isStudent ? 'Aluno' : 'Mentor'}
+                </h1>
+                <p className="text-sm md:text-base text-white/80">
+                    {isStudent
+                        ? 'Preencha os dados para criar uma nova conta de aluno'
+                        : 'Preencha os dados para criar uma nova conta de mentor'}
+                </p>
+            </div>
+
+            <div className="flex items-center justify-center gap-2 text-[#f0e087] text-xs md:text-sm">
+                <Music className="w-4 h-4" />
+                <span>Sua Jornada Musical, no seu Ritmo</span>
+            </div>
+        </div>
+    );
+}
