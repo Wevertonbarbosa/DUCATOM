@@ -1,4 +1,4 @@
-import { AgendaMentor } from "./agenda-mentor";
+import { AgendaMentor } from './agenda-mentor';
 
 export interface UserModel {
     id: string;
@@ -36,4 +36,32 @@ export interface ListMentor {
     isFavorite?: boolean;
     agenda_publicada: boolean;
     agenda_mentor: AgendaMentor[];
+}
+
+export interface MentorScheduleStats {
+    mentor_id: number;
+    mentor_nome: string;
+    total_horarios: number;
+    total_reservados: number;
+}
+
+export interface Mentor {
+    id: number;
+    nome: string;
+    especialidade: string;
+    nivel: number;
+    agenda_publicada: boolean;
+}
+
+// Interface baseada no JSON fornecido
+export interface StudentBooking {
+    booking_id: number;
+    status: string;
+    booking_date: string;
+    created_at: string;
+    aluno_id: number;
+    aluno_nome: string;
+    mentor_id: number;
+    mentor_nome: string;
+    start_time: string;
 }

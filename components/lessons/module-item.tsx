@@ -9,9 +9,10 @@ import { Button } from '@/components/ui/button';
 interface ModuleItemProps {
     module: Module;
     mentorNivel: number;
+    mentorID: number | null;
 }
 
-export function ModuleItem({ module, mentorNivel }: ModuleItemProps) {
+export function ModuleItem({ module, mentorNivel, mentorID }: ModuleItemProps) {
     const [isExpanded, setIsExpanded] = useState(false);
 
     const isLocked = module.nivel > mentorNivel;
@@ -85,6 +86,7 @@ export function ModuleItem({ module, mentorNivel }: ModuleItemProps) {
                                 moduleTitle={module.title}
                                 lessonNumber={index + 1}
                                 moduleId={module.id}
+                                mentorID={mentorID}
                             />
                         ))}
                     </div>

@@ -3,18 +3,42 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import { XCircle, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useControlLessonMentor } from '@/hooks/useModulos_lesson';
+import { useEffect, useRef, useState } from 'react';
+import { UserModel } from '@/model/user-model';
 
 export function LessonDenied() {
     const router = useRouter();
     const searchParams = useSearchParams();
+    const [adminPersona, setAdminPersona] = useState<UserModel | null>(null);
+    const isAdmin = adminPersona?.role === 'ADMIN';
 
     const moduleTitle = searchParams.get('module') || 'Módulo';
     const lessonName = searchParams.get('lesson') || 'Aula';
     const lessonTitle = searchParams.get('name') || '';
     const aulaId = searchParams.get('aula_id') ?? '';
 
-    const feedback =
-        'Atente-se ao ritmo. Ao iniciar a segunda estrofe, você está invertendo o uso do polegar com a batida de todos os dedos, e isso pode confundir o entendimento do aluno.';
+    const mentorIdString = searchParams.get('mentorId') || '';
+
+    const { loading, lessonProgress, fetchMentorLesson } =
+        useControlLessonMentor();
+
+    const didRun = useRef(false);
+
+    useEffect(() => {
+        if (didRun.current) return;
+        didRun.current = true;
+
+        const auth_admin = localStorage.getItem('auth_user');
+        if (auth_admin) {
+            setAdminPersona(JSON.parse(auth_admin));
+        }
+
+        const mentorId = parseInt(mentorIdString);
+        const aulaIdId = parseInt(aulaId);
+
+        fetchMentorLesson(aulaIdId, mentorId);
+    }, []);
 
     const handleResubmit = () => {
         const params = new URLSearchParams({
@@ -70,18 +94,23 @@ export function LessonDenied() {
                         </h4>
                         <div className="bg-[#0a4d8f]/50 backdrop-blur-sm rounded-lg p-6 border border-white/10">
                             <p className="text-white/90 text-sm md:text-base leading-relaxed">
-                                {feedback}
+                                {lessonProgress?.feedback_admin}
                             </p>
                         </div>
                     </div>
 
                     {/* Resubmit Button */}
-                    <Button
-                        onClick={handleResubmit}
-                        className="w-full max-w-md bg-[#f0e087] hover:bg-[#f0e087]/90 text-[#083d71] font-bold text-lg py-6 rounded-xl transition-all hover:scale-105 active:scale-95 shadow-lg"
-                    >
-                        Realizar Reenvio
-                    </Button>
+
+                    {!isAdmin && (
+                        <>
+                            <Button
+                                onClick={handleResubmit}
+                                className="w-full max-w-md bg-[#f0e087] hover:bg-[#f0e087]/90 text-[#083d71] font-bold text-lg py-6 rounded-xl transition-all hover:scale-105 active:scale-95 shadow-lg"
+                            >
+                                Realizar Reenvio
+                            </Button>
+                        </>
+                    )}
                 </div>
 
                 {/* Back Button */}

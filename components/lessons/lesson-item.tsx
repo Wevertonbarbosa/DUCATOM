@@ -6,13 +6,14 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { useDashboardUser } from '@/hooks/useDashboard';
 import { useControlLessonMentor } from '@/hooks/useModulos_lesson';
-import { MentorData } from '@/model/user-model';
+import { MentorData, UserModel } from '@/model/user-model';
 
 interface LessonItemProps {
     lesson: Lesson;
     moduleTitle: string;
     lessonNumber: number;
     moduleId: string;
+    mentorID: number | null;
 }
 
 export function LessonItem({
@@ -20,10 +21,14 @@ export function LessonItem({
     moduleTitle,
     lessonNumber,
     moduleId,
+    mentorID,
 }: LessonItemProps) {
     const router = useRouter();
     const [currentStatus, setCurrentStatus] = useState(lesson.status);
     const { ensureMentorLesson } = useControlLessonMentor();
+
+    const [adminPersona, setAdminPersona] = useState<UserModel | null>(null);
+    const isAdmin = adminPersona?.role === 'ADMIN';
 
     const [mentorUser, setMentorUser] = useState<MentorData>();
 
@@ -32,6 +37,11 @@ export function LessonItem({
     useEffect(() => {
         if (didRun.current) return;
         didRun.current = true;
+
+        const auth_admin = localStorage.getItem('auth_user');
+        if (auth_admin) {
+            setAdminPersona(JSON.parse(auth_admin));
+        }
 
         const saved = localStorage.getItem('mentor_id');
         if (saved) {
@@ -89,9 +99,7 @@ export function LessonItem({
     const statusConfig = getStatusConfig(currentStatus);
 
     const handleClick = async () => {
-        if (!mentorUser?.id) return;
         const aulaId = parseInt(lesson.id);
-        const mentorId = mentorUser.id;
 
         const params = new URLSearchParams({
             module: moduleTitle,
@@ -103,26 +111,77 @@ export function LessonItem({
             aula_id: lesson.id,
         });
 
-        if (currentStatus === 'em aberto') {
-            await ensureMentorLesson(aulaId, mentorId);
-            router.push(`/submeter-aula?${params.toString()}`);
-            return;
+        if (isAdmin) {
+            if (currentStatus === 'em aberto') {
+                router.push(`/submeter-aula?${params.toString()}`);
+                return;
+            }
+
+            if (currentStatus === 'negado') {
+                const searchParams = new URLSearchParams(params.toString());
+                searchParams.set('mentorId', String(mentorID));
+                searchParams.set('aulaId', String(aulaId));
+
+                router.push(`/aula-negada?${searchParams.toString()}`);
+
+                return;
+            }
+
+            if (currentStatus === 'em análise') {
+                const searchParams = new URLSearchParams(params.toString());
+                searchParams.set('mentorId', String(mentorID));
+                searchParams.set('aulaId', String(aulaId));
+                
+                router.push(`/aula-analise?${searchParams.toString()}`);
+                return;
+            }
+
+            if (currentStatus === 'aprovado') {
+                const searchParams = new URLSearchParams(params.toString());
+                searchParams.set('mentorId', String(mentorID));
+                searchParams.set('aulaId', String(aulaId));
+
+                router.push(`/aula-aprovada?${searchParams.toString()}`);
+
+                return;
+            }
+        } else {
+            if (!mentorUser?.id) return;
+            const mentorId = mentorUser?.id;
+
+            if (currentStatus === 'em aberto') {
+                await ensureMentorLesson(aulaId, mentorId);
+                router.push(`/submeter-aula?${params.toString()}`);
+                return;
+            }
+
+            if (currentStatus === 'negado') {
+                const searchParams = new URLSearchParams(params.toString());
+
+                searchParams.set('mentorId', String(mentorId));
+                searchParams.set('aulaId', String(aulaId));
+
+                router.push(`/aula-negada?${searchParams.toString()}`);
+                return;
+            }
+
+            if (currentStatus === 'em análise') {
+                router.push(`/aula-analise?${params.toString()}`);
+                return;
+            }
+
+            if (currentStatus === 'aprovado') {
+                const searchParams = new URLSearchParams(params.toString());
+
+                searchParams.set('mentorId', String(mentorId));
+                searchParams.set('aulaId', String(aulaId));
+
+                router.push(`/aula-aprovada?${searchParams.toString()}`);
+
+                return;
+            }
         }
 
-        if (currentStatus === 'negado') {
-            router.push(`/aula-negada?${params.toString()}`);
-            return;
-        }
-
-        if (currentStatus === 'em análise') {
-            router.push(`/aula-analise?${params.toString()}`);
-            return;
-        }
-
-        if (currentStatus === 'aprovado') {
-            router.push(`/aula-aprovada?${params.toString()}`);
-            return;
-        }
     };
 
     return (

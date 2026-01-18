@@ -3,6 +3,8 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import { CheckCircle, ArrowLeft } from 'lucide-react';
 import { Button } from '../ui/button';
+import { useEffect, useRef } from 'react';
+import { useControlLessonMentor } from '@/hooks/useModulos_lesson';
 
 export function LessonApproved() {
     const router = useRouter();
@@ -12,8 +14,22 @@ export function LessonApproved() {
     const lessonName = searchParams.get('lesson') || 'Aula';
     const lessonTitle = searchParams.get('name') || '';
 
-    const feedback =
-        'Muito bom Jorge! Atente-se à tonalidade da música enquanto canta no ritmo. Lembre-se de praticar essa orientação da aula.';
+    const mentorIdString = searchParams.get('mentorId') || '';
+    const aulaIdString = searchParams.get('aulaId') || '';
+
+    const { loading, lessonProgress, fetchMentorLesson } =
+        useControlLessonMentor();
+
+    const didRun = useRef(false);
+
+    useEffect(() => {
+        if (didRun.current) return;
+        didRun.current = true;
+        const mentorId = parseInt(mentorIdString);
+        const aulaId = parseInt(aulaIdString);
+
+        fetchMentorLesson(aulaId, mentorId);
+    }, []);
 
     const handleBack = () => {
         router.push('/validacao-aulas');
@@ -58,7 +74,7 @@ export function LessonApproved() {
                         </h4>
                         <div className="bg-[#0a4d8f]/50 backdrop-blur-sm rounded-lg p-6 border border-white/10">
                             <p className="text-white/90 text-sm md:text-base leading-relaxed">
-                                {feedback}
+                                {lessonProgress?.feedback_admin}
                             </p>
                         </div>
                     </div>

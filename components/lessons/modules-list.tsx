@@ -6,9 +6,10 @@ import { ModuleItem } from './module-item';
 interface ModulesListProps {
     modules: Module[];
     mentorNivel: number;
+    mentorID: number | null;
 }
 
-export function ModulesList({ modules, mentorNivel }: ModulesListProps) {
+export function ModulesList({ modules, mentorNivel, mentorID }: ModulesListProps) {
     return (
         <div className="space-y-3 md:space-y-4">
             {modules.map((module) => (
@@ -16,6 +17,7 @@ export function ModulesList({ modules, mentorNivel }: ModulesListProps) {
                     key={module.id}
                     module={module}
                     mentorNivel={mentorNivel}
+                    mentorID={mentorID}
                 />
             ))}
         </div>

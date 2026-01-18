@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
-import { Module, Lesson } from '@/model/lesson-mentor';
+import { Module, Lesson, MentorAula } from '@/model/lesson-mentor';
 import {
     getMentorLessonService,
     searchLessonService,
     searchModulosService,
     sendMentorLessonService,
+    updateMentorLessonStatusFeedbackService,
     updateMentorLessonStatusService,
 } from '@/service/modulos_lessons_mentor.service';
 
@@ -29,7 +30,7 @@ export function useModuleLessonMentor() {
 
             if (!moduleResponse.success) {
                 toast.error(
-                    moduleResponse.message || 'Erro ao carregar os módulos.'
+                    moduleResponse.message || 'Erro ao carregar os módulos.',
                 );
                 return;
             }
@@ -41,13 +42,13 @@ export function useModuleLessonMentor() {
                 moduleResponse.data.map(async (modulo: any) => {
                     const lessonResponse = await searchLessonService(
                         mentorId,
-                        modulo.id
+                        modulo.id,
                     );
 
                     if (!lessonResponse.success) {
                         toast.error(
                             lessonResponse.message ||
-                                `Erro ao carregar aulas do módulo ${modulo.title}`
+                                `Erro ao carregar aulas do módulo ${modulo.title}`,
                         );
 
                         return {
@@ -64,7 +65,7 @@ export function useModuleLessonMentor() {
                             title: `${lesson.aula_titulo} - ${lesson.aula_descricao}`,
                             status: lesson.status,
                             videoUrl: lesson.video,
-                        })
+                        }),
                     );
 
                     return {
@@ -73,13 +74,14 @@ export function useModuleLessonMentor() {
                         nivel: modulo.nivel,
                         lessons: lessonsMapped,
                     };
-                })
+                }),
             );
 
             setModules(modulesWithLessons);
         } catch (error: any) {
             toast.error(
-                error?.message || 'Erro inesperado ao carregar módulos e aulas.'
+                error?.message ||
+                    'Erro inesperado ao carregar módulos e aulas.',
             );
         } finally {
             setLoading(false);
@@ -95,15 +97,14 @@ export function useModuleLessonMentor() {
 
 export function useControlLessonMentor() {
     const [loading, setLoading] = useState(false);
-    const [lessonProgress, setLessonProgress] = useState<any | null>(null);
+    const [lessonProgress, setLessonProgress] = useState<MentorAula | null>(
+        null,
+    );
 
     /**
      * 🔎 BUSCA progresso da aula do mentor
      */
-    async function fetchMentorLesson(
-        aula_id: number,
-        mentor_id: number // depois você muda a origem
-    ) {
+    async function fetchMentorLesson(aula_id: number, mentor_id: number) {
         if (!aula_id || !mentor_id) {
             toast.error('Aula ou mentor não informado');
             return null;
@@ -184,14 +185,14 @@ export function useSendLessonWhatsAppMentor() {
     async function changeStatus(
         aulaId: number,
         mentorId: number,
-        status: string
+        status: string,
     ) {
         setLoading(true);
         try {
             const resp = await updateMentorLessonStatusService(
                 aulaId,
                 mentorId,
-                status
+                status,
             );
 
             if (!resp.success) {
@@ -212,5 +213,44 @@ export function useSendLessonWhatsAppMentor() {
     return {
         loading,
         changeStatus,
+    };
+}
+
+// MENTOR ENVIA O VIDEO DA AULA PARA O ADMIN
+export function useUpdateMentorLessonStatusFeedback() {
+    const [loading, setLoading] = useState(false);
+
+    async function sendAdminFeedbackStatus(
+        aulaId: number,
+        mentorId: number,
+        status: 'aprovado' | 'negado',
+        feedback_admin?: string,
+    ) {
+        setLoading(true);
+        try {
+            const resp = await updateMentorLessonStatusFeedbackService(
+                aulaId,
+                mentorId,
+                status,
+                feedback_admin
+            );
+
+            if (!resp.success) {
+                toast.error(resp.message);
+                return false;
+            }
+            toast.success('Status atualizado com sucesso!');
+            return true;
+        } catch {
+            toast.error('Erro inesperado ao atualizar status');
+            return false;
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    return {
+        loading,
+        sendAdminFeedbackStatus,
     };
 }

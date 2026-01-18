@@ -18,7 +18,6 @@ export function useLogin() {
         if (result.success) {
             const userData = result.data.user;
 
-            // 🔥 Pegando exatamente o que VOCÊ pediu
             const parsedUser = {
                 id: userData.id,
                 email: userData.email,
@@ -26,12 +25,17 @@ export function useLogin() {
                 role: userData.user_metadata.role,
             };
 
-            setUser(parsedUser); // ← salva no contexto + localStorage
+            setUser(parsedUser);
 
             setTimeout(() => {
                 toast.success('Login realizado!');
                 setLoading(false);
-                router.push('/dashboard');
+
+                if (parsedUser.role === 'ADMIN') {
+                    router.push('/admin/dashboard-admin');
+                } else {
+                    router.push('/dashboard');
+                }
             }, 3000);
         } else {
             toast.error(result.message || 'Erro ao realizar o login');

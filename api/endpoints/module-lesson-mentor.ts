@@ -16,7 +16,7 @@ export async function searchModulosRequest() {
 // BUSCA AS AULAS DO MODULO SELECIONADO E SEU STATUS PARA O MENTOR SELECIONADO
 export async function searchLessonRequest(
     p_mentor_id: number,
-    p_modulo_id: number
+    p_modulo_id: number,
 ) {
     const url = `/rest/v1/rpc/get_aulas_modulo_mentor`;
     const body = { p_mentor_id, p_modulo_id };
@@ -28,7 +28,7 @@ export async function searchLessonRequest(
 // BUSCA O PROGRESSO DAS AULAS DO MENTOR
 export async function getMentorLessonRequest(
     aula_id: number,
-    mentor_id: number
+    mentor_id: number,
 ) {
     const url = `/rest/v1/mentor_aulas?aula_id=eq.${aula_id}&mentor_id=eq.${mentor_id}&limit=1`;
 
@@ -39,7 +39,7 @@ export async function getMentorLessonRequest(
 // REGISTRA QUE O MENTOR ABRIU A AULA PELA PRIMEIRA VEZ E UMA UNICA VEZ
 export async function sendMentorLessonRequest(
     aula_id: number,
-    mentor_id: number
+    mentor_id: number,
 ) {
     // 1. verifica se já existe
     const existing = await getMentorLessonRequest(aula_id, mentor_id);
@@ -60,7 +60,7 @@ export async function sendMentorLessonRequest(
 export async function updateMentorLessonStatusRequest(
     aula_id: number,
     mentor_id: number,
-    status: string
+    status: string,
 ) {
     const url = `/rest/v1/mentor_aulas?aula_id=eq.${aula_id}&mentor_id=eq.${mentor_id}`;
 
@@ -70,4 +70,20 @@ export async function updateMentorLessonStatusRequest(
     return resp.data;
 }
 
+//ADMIN NEGA OU APROVA A AULA DO MENTOR
+export async function updateMentorLessonStatusFeedbackRequest(
+    aula_id: number,
+    mentor_id: number,
+    status: 'aprovado' | 'negado',
+    feedback_admin?: string,
+) {
+    const url = `/rest/v1/mentor_aulas?aula_id=eq.${aula_id}&mentor_id=eq.${mentor_id}`;
 
+    const body = {
+        status,
+        feedback_admin,
+    };
+
+    const resp = await supabaseAuth.patch(url, body);
+    return resp.data;
+}

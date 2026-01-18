@@ -13,3 +13,14 @@ export interface Module {
     nivel: number;
     lessons: Lesson[];
 }
+
+export interface MentorAula {
+    id: number;
+    aula_id: number;
+    mentor_id: number;
+    status: LessonStatus;
+    video_submetido: string | null;
+    feedback_admin: string | null;
+    created_at: string; // ISO date
+    updated_at: string; // ISO date
+}
