@@ -1,9 +1,11 @@
 import {
     getByIdMentorRequest,
     getHistoryStudentByIdRequest,
+    postConfirmationClassRequest,
     searchByIdStudentRequest,
     searchByNivelMentorRequest,
     searchMentorRequest,
+    searchPendingConfirmationRequest,
     searchStudentRequest,
     searchTotalTimeWeekdayRequest,
 } from '@/api/endpoints/dashboard-users.endpoint';
@@ -31,15 +33,10 @@ export async function getHistoryStudentByIdService(aluno_id_param: number) {
     } catch (error: any) {
         return {
             success: false,
-            message:
-                error.response?.data?.message ||
-                'Erro ao buscar aluno.',
+            message: error.response?.data?.message || 'Erro ao buscar aluno.',
         };
     }
 }
-
-
-
 
 //GET BUSCAR MENTOR POR VIA ID NA TABELA MENTOR
 export async function byMentorByIDService(id: number) {
@@ -56,9 +53,6 @@ export async function byMentorByIDService(id: number) {
     }
 }
 
-
-
-
 //BUSCA TODOS OS ALUNOS
 export async function byStudentListService() {
     try {
@@ -73,7 +67,6 @@ export async function byStudentListService() {
         };
     }
 }
-
 
 //BUSCA A LISTA DE MENTORES COM AGENDA ATIVA OU FALSE
 export async function byMentorListService() {
@@ -115,6 +108,52 @@ export async function searchTotalTimeWeekdayService(mentor_id_param: number) {
             message:
                 error.response?.data?.message ||
                 'Erro ao buscar o total de horarios disponiveis e reservado do mentor',
+        };
+    }
+}
+
+//BUSCAR MENTOR/ALUNO SE TEM PENDÊNCIA DE CONFIRMAÇÃO/NEGAÇÃO DE CONCLUIR A AULA
+export async function searchPendingConfirmationService(
+    p_user_id: number,
+    p_role: string,
+) {
+    try {
+        const data = await searchPendingConfirmationRequest(p_user_id, p_role);
+
+        return { success: true, data };
+    } catch (error: any) {
+        return {
+            success: false,
+            message:
+                error.response?.data?.message ||
+                'Erro ao buscar pendências de confirmação ou negação das aulas.',
+        };
+    }
+}
+
+// ALUNO/MENTOR CONFIRMA OU NEGA NO MODAL A CONCLUSAO DA AULA
+
+export async function postConfirmationClassService(
+    p_booking_id: number,
+    p_user_id: number,
+    p_role: string,
+    p_confirmed: boolean,
+) {
+    try {
+        const data = await postConfirmationClassRequest(
+            p_booking_id,
+            p_user_id,
+            p_role,
+            p_confirmed,
+        );
+
+        return { success: true, data };
+    } catch (error: any) {
+        return {
+            success: false,
+            message:
+                error.response?.data?.message ||
+                'Erro ao confirmar ou negar se a aula foi concluída ou não.',
         };
     }
 }

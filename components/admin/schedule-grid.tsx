@@ -50,10 +50,10 @@ export function ScheduleGrid({ agenda, mentor }: ScheduleGridProps) {
             return {
                 key: day.date,
                 label: `${daysLabel[day.weekday]}, ${String(
-                    date.getDate()
+                    date.getDate(),
                 ).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(
                     2,
-                    '0'
+                    '0',
                 )}`,
                 slots: day.slots,
             };
@@ -85,10 +85,10 @@ export function ScheduleGrid({ agenda, mentor }: ScheduleGridProps) {
         if (slot.status === 'concluido')
             return 'bg-gradient-to-br from-emerald-700 via-emerald-800 to-gray-300';
 
-        if (slot.status === 'no_show') return 'bg-gray-200  hover:bg-gray-300';
-        // NOVO STATUS ADD MODIFICAR TODO O FRONT PARA LIDAR COM O STATUS
-        if (slot.status === 'negado_inatividade') return 'bg-black hover:bg-black/50';
-        
+        if (slot.status === 'no_show') return 'bg-linear-to-r from-[#8B2F4E] to-[#4B1F3A]';
+
+        if (slot.status === 'negado_inatividade')
+            return 'bg-black hover:bg-black/50';
 
         if (slot.status === 'empty') return 'bg-blue-600 hover:bg-blue-700';
         return 'bg-blue-600 hover:bg-blue-700';
@@ -105,9 +105,9 @@ export function ScheduleGrid({ agenda, mentor }: ScheduleGridProps) {
             case 'cancelado_aluno':
                 return 'bg-pink-600 text-white';
             case 'no_show':
-                return 'bg-gray-500 text-white';
+                return 'bg-linear-to-r from-[#8B2F4E] to-[#4B1F3A] text-white';
             case 'negado_inatividade':
-                return 'bg-black text-white'
+                return 'bg-black text-white';
             case 'concluido':
                 return 'bg-gradient-to-br from-emerald-700 via-emerald-800 to-gray-300 text-black';
             default:
@@ -118,7 +118,7 @@ export function ScheduleGrid({ agenda, mentor }: ScheduleGridProps) {
     function handleSlotClick(
         slot: MentorAgendaSlot,
         time: string,
-        date: string
+        date: string,
     ) {
         setSelectedSlot(slot);
         setSelectedTime(time);
@@ -137,6 +137,11 @@ export function ScheduleGrid({ agenda, mentor }: ScheduleGridProps) {
                 'cancelado_aluno',
             ].includes(slot.status)
         ) {
+            setShowCanceledModal(true);
+            return;
+        }
+        if (slot.status === 'no_show') {
+            slot.description = 'Alguma coisa aconteceu entre Mentor e Aluno para a não conclusão da aula.';
             setShowCanceledModal(true);
             return;
         }
@@ -170,7 +175,7 @@ export function ScheduleGrid({ agenda, mentor }: ScheduleGridProps) {
                 <div className="min-w-[900px] ">
                     {/* HEADER */}
                     <div className="grid grid-cols-[120px_repeat(auto-fit,minmax(120px,1fr))] gap-2 mb-3">
-                        <div className="flex items-center justify-center font-medium">
+                        <div className="flex  items-center justify-center font-medium">
                             Horários
                         </div>
                         {dates.map((date) => (
@@ -196,7 +201,7 @@ export function ScheduleGrid({ agenda, mentor }: ScheduleGridProps) {
 
                                 {dates.map((date) => {
                                     const slot = date.slots.find((s) =>
-                                        s.time.startsWith(time)
+                                        s.time.startsWith(time),
                                     );
                                     if (!slot)
                                         return (
@@ -215,11 +220,11 @@ export function ScheduleGrid({ agenda, mentor }: ScheduleGridProps) {
                                                             handleSlotClick(
                                                                 slot,
                                                                 time,
-                                                                date.key
+                                                                date.key,
                                                             )
                                                         }
                                                         className={`h-12 w-full rounded-lg transition-all cursor-pointer ${getSlotMainColor(
-                                                            slot
+                                                            slot,
                                                         )}`}
                                                     />
                                                 </TooltipTrigger>
@@ -239,7 +244,7 @@ export function ScheduleGrid({ agenda, mentor }: ScheduleGridProps) {
                                                                 {slot.history.map(
                                                                     (
                                                                         h: MentorAgendaSlotHistory,
-                                                                        idx
+                                                                        idx,
                                                                     ) => (
                                                                         <Tooltip
                                                                             key={
@@ -251,7 +256,7 @@ export function ScheduleGrid({ agenda, mentor }: ScheduleGridProps) {
                                                                             >
                                                                                 <span
                                                                                     className={`w-5 h-5 rounded-full border border-white ${getBadgeColor(
-                                                                                        h.status
+                                                                                        h.status,
                                                                                     )}`}
                                                                                 />
                                                                             </TooltipTrigger>
@@ -265,7 +270,7 @@ export function ScheduleGrid({ agenda, mentor }: ScheduleGridProps) {
                                                                                 </p>
                                                                             </TooltipContent>
                                                                         </Tooltip>
-                                                                    )
+                                                                    ),
                                                                 )}
                                                             </div>
                                                         </PopoverTrigger>
@@ -275,7 +280,7 @@ export function ScheduleGrid({ agenda, mentor }: ScheduleGridProps) {
                                                                 {slot.history.map(
                                                                     (
                                                                         h: MentorAgendaSlotHistory,
-                                                                        idx
+                                                                        idx,
                                                                     ) => (
                                                                         <div
                                                                             key={
@@ -286,17 +291,17 @@ export function ScheduleGrid({ agenda, mentor }: ScheduleGridProps) {
                                                                             <div className="flex justify-between items-center mb-1">
                                                                                 <span
                                                                                     className={`px-1 rounded ${getBadgeColor(
-                                                                                        h.status
+                                                                                        h.status,
                                                                                     )}`}
                                                                                 >
                                                                                     {h.status.replace(
                                                                                         '_',
-                                                                                        ' '
+                                                                                        ' ',
                                                                                     )}
                                                                                 </span>
                                                                                 <span className="text-gray-300 text-[10px]">
                                                                                     {new Date(
-                                                                                        h.created_at
+                                                                                        h.created_at,
                                                                                     ).toLocaleString()}
                                                                                 </span>
                                                                             </div>
@@ -316,7 +321,7 @@ export function ScheduleGrid({ agenda, mentor }: ScheduleGridProps) {
                                                                                     '-'}
                                                                             </div>
                                                                         </div>
-                                                                    )
+                                                                    ),
                                                                 )}
                                                             </div>
                                                         </PopoverContent>
@@ -349,7 +354,7 @@ export function ScheduleGrid({ agenda, mentor }: ScheduleGridProps) {
                     selectedSlot
                         ? getSlotMainColor(selectedSlot).replace(
                               /hover:bg-\S+/g,
-                              ''
+                              '',
                           )
                         : ''
                 }

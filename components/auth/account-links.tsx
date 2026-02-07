@@ -15,13 +15,6 @@ export function AccountLinks() {
             >
                 Criar conta Mentor
             </Link>
-            <Link
-                href="/admin"
-                className="hover:text-[#f0e087] transition-colors text-sm md:text-base font-medium"
-            >
-                Administrador
-            </Link>
         </div>
     );
 }
-  

@@ -30,6 +30,8 @@ export function CanceledSlotModal({
         return () => {
             document.body.style.overflow = 'unset';
         };
+
+        
     }, [isOpen]);
 
     if (!isOpen) return null;
@@ -45,7 +47,9 @@ export function CanceledSlotModal({
             {/* Modal */}
             <div className="relative w-full max-w-md bg-[#0a1929] rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
                 {/* Header */}
-                <div className={`relative bg-linear-to-br p-6 text-center ${colorBg}`} >
+                <div
+                    className={`relative bg-linear-to-br p-6 text-center ${colorBg}`}
+                >
                     <button
                         onClick={onClose}
                         className="absolute top-4 right-4 p-1 rounded-full bg-black/20 hover:bg-black/40 transition-colors"

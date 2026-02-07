@@ -406,7 +406,7 @@ Deno.serve({ verifyJwt: false }, async (req) => {
         // CRIAR EVENTO COM GOOGLE MEET
         // ======================================================
         const eventPayload = {
-            summary: 'Sessão de Mentoria',
+            summary: 'Aula Ducatom',
             description: `Mentoria aprovada (booking ${booking.id})`,
             start: {
                 dateTime: startLocal,

@@ -32,7 +32,7 @@ export function useDashboardUser() {
                     );
                     return null;
                 }
-                //SALVANDO O ALUNO NO LOCALSTORAGE
+                
                 localStorage.setItem(
                     'aluno_id',
                     JSON.stringify(response.data[0])
@@ -50,7 +50,6 @@ export function useDashboardUser() {
                     return null;
                 }
 
-                //APOS REMOVER O MENTORDATA E DEIXAR APENA O SETMENTORID QUE É CONTEXT API
                 setMentorData(response.data[0]);
 
                 setMentorId(response.data[0].id);

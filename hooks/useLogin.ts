@@ -18,12 +18,18 @@ export function useLogin() {
         if (result.success) {
             const userData = result.data.user;
 
+            
             const parsedUser = {
                 id: userData.id,
                 email: userData.email,
                 nome: userData.user_metadata.nome,
                 role: userData.user_metadata.role,
+                token: result.data.access_token,
             };
+
+            
+            document.cookie = `sb_access_token=${result.data.access_token}; path=/; max-age=86400`;
+            document.cookie = `sb_role=${userData.user_metadata.role}; path=/; max-age=86400`;
 
             setUser(parsedUser);
 

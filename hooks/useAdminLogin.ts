@@ -12,11 +12,17 @@ export function useAdminLogin() {
     async function handleAdminLogin(
         email: string,
         password: string,
-        accountType: string | null
+        accountType: string | null,
     ) {
         setLoading(true);
 
         const result = await adminLoginService(email, password);
+
+        if (result.success) {
+            const userData = result.data.user;
+            document.cookie = `sb_access_token=${result.data.access_token}; path=/; max-age=86400`;
+            document.cookie = `sb_role=${userData.user_metadata.role}; path=/; max-age=86400`;
+        }
 
         setLoading(false);
 
@@ -27,6 +33,8 @@ export function useAdminLogin() {
 
         // Admin autenticado com sucesso
         if (accountType === 'aluno') {
+            console.log('vamos lá');
+            
             toast.success('Login realizado!');
             router.push('/criar-aluno');
         } else if (accountType === 'mentor') {

@@ -1,6 +1,6 @@
 'use client';
 
-import { Menu, Calendar, BookOpen } from 'lucide-react';
+import { Menu, Calendar, BookOpen, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
     Sheet,
@@ -90,6 +90,17 @@ export function DashboardHeader() {
                             )}
 
                             <div className="border-t border-[#0a5491] my-4"></div>
+
+                            <button
+                                type="button"
+                                // onClick={logout}
+                                className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-red-500/20 transition-all group text-red-300 hover:text-red-200 w-full"
+                            >
+                                <LogOut className="h-5 w-5" />
+                                <span className="text-base font-medium">
+                                    Sair
+                                </span>
+                            </button>
                         </nav>
                     </SheetContent>
                 </Sheet>
@@ -104,6 +115,26 @@ export function DashboardHeader() {
                         Jornada Musical
                     </span>
                 </div>
+
+                {/* Botão de logout - mobile (ícone) */}
+                <button
+                    type="button"
+                    // onClick={logout}
+                    className="md:hidden flex items-center justify-center w-9 h-9 rounded-lg text-red-300 hover:text-red-200 hover:bg-red-500/20 transition-all"
+                    aria-label="Sair"
+                >
+                    <LogOut className="h-5 w-5" />
+                </button>
+
+                {/* Botão de logout - desktop */}
+                <button
+                    type="button"
+                    // onClick={logout}
+                    className="hidden md:flex items-center gap-2 px-4 py-2 rounded-lg text-red-300 hover:text-red-200 hover:bg-red-500/20 border border-red-400/30 hover:border-red-400/50 transition-all text-sm cursor-pointer font-medium"
+                >
+                    <LogOut className="h-4 w-4" />
+                    <span>Sair</span>
+                </button>
             </div>
         </header>
     );

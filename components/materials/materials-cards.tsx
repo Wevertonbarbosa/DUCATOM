@@ -40,7 +40,7 @@ export function MaterialsCards() {
                             <h2 className="text-[#f0e087] font-bold text-lg md:text-xl lg:text-2xl">
                                 {material.title}
                             </h2>
-                            <material.icon className="h-8 w-8 md:h-10 md:w-10 text-[#f0e087] flex-shrink-0 ml-4" />
+                            <material.icon className="h-8 w-8 md:h-10 md:w-10 text-[#f0e087] shrink-0 ml-4" />
                         </CardContent>
                     </Card>
                 </a>

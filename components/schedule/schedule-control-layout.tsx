@@ -159,8 +159,7 @@ export function ScheduleControlLayout() {
                     <DialogHeader>
                         <DialogTitle>Confirmar exclusão</DialogTitle>
                         <DialogDescription>
-                            Tem certeza que deseja remover este horário? Essa
-                            ação não pode ser desfeita.
+                            Tem certeza que deseja remover este horário?<br /> Lembrando, caso sua agenda tenha menos de 6 horários disponíveis, ela deixará de ser divulgada.
                         </DialogDescription>
                     </DialogHeader>
 

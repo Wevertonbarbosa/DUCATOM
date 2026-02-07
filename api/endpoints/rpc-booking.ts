@@ -1,3 +1,4 @@
+import { getCookie } from '@/utils/cookies';
 import { supabaseEdgeFunction } from '../supabaseAuth.api';
 
 // MENTOR/ALUNO APROVA OU NEGA A AGENDA COM O ALUNO QUE SOLICITOU SEM O MEET AINDA
@@ -8,10 +9,16 @@ export async function ApproveOrDenyLessonUserRequest(
     mentor_id?: number,
     aluno_id?: number,
 ) {
+    const token = getCookie('sb_access_token');
+
+    if (!token) {
+        throw new Error('Usuário não autenticado');
+    }
+
     const url = `/functions/v1/approve-mentor-booking`;
     const body = { booking_id, mentor_id, aluno_id, action, description };
 
-    const resp = await supabaseEdgeFunction.post<any>(url, body);
+    const resp = await supabaseEdgeFunction(token).post(url, body);
     return resp.data;
 }
 
@@ -21,10 +28,16 @@ export async function cancelLessonStudentRequest(
     aluno_id: number,
     description: string,
 ) {
+    const token = getCookie('sb_access_token');
+
+    if (!token) {
+        throw new Error('Usuário não autenticado');
+    }
+
     const url = `/functions/v1/cancel-booking`;
     const body = { booking_id, aluno_id, description };
 
-    const resp = await supabaseEdgeFunction.post<any>(url, body);
+    const resp = await supabaseEdgeFunction(token).post<any>(url, body);
     return resp.data;
 }
 
@@ -34,13 +47,18 @@ export async function cancelLessonMentorRequest(
     mentor_id: number,
     description: string,
 ) {
+    const token = getCookie('sb_access_token');
+
+    if (!token) {
+        throw new Error('Usuário não autenticado');
+    }
+
     const url = `/functions/v1/cancel-booking`;
     const body = { booking_id, mentor_id, description };
 
-    const resp = await supabaseEdgeFunction.post<any>(url, body);
+    const resp = await supabaseEdgeFunction(token).post<any>(url, body);
     return resp.data;
 }
-
 
 // ALUNO CRIA AGENDAMENTO PARA MENTOR APROVAR OU NEGAR AULA (pendente_aprovacao)
 export async function createBookingStudentRequest(
@@ -49,9 +67,17 @@ export async function createBookingStudentRequest(
     weekday_id: number,
     mentor_time_slot_id: number,
 ) {
+    const token = getCookie('sb_access_token');
+
+    console.log('token do JWT ', token);
+
+    if (!token) {
+        throw new Error('Usuário não autenticado');
+    }
+
     const url = `/functions/v1/criar-agendamento`;
     const body = { aluno_id, mentor_id, weekday_id, mentor_time_slot_id };
 
-    const resp = await supabaseEdgeFunction.post<any>(url, body);
+    const resp = await supabaseEdgeFunction(token).post<any>(url, body);
     return resp.data;
 }

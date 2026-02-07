@@ -96,3 +96,27 @@ export async function searchTotalTimeWeekdayRequest(mentor_id_param: number) {
     const resp = await supabaseAuth.post<any>(url, body);
     return resp.data;
 }
+
+//BUSCAR MENTOR/ALUNO SE TEM PENDÊNCIA DE CONFIRMAÇÃO/NEGAÇÃO DE CONCLUIR A AULA
+export async function searchPendingConfirmationRequest(
+    p_user_id: number,
+    p_role: string,
+) {
+    const url = `/rest/v1/rpc/get_pending_class_confirmation`;
+    const body = { p_user_id, p_role };
+    const resp = await supabaseAuth.post<any>(url, body);
+    return resp.data;
+}
+
+// ALUNO/MENTOR CONFIRMA OU NEGA NO MODAL A CONCLUSAO DA AULA
+export async function postConfirmationClassRequest(
+    p_booking_id: number,
+    p_user_id: number,
+    p_role: string,
+    p_confirmed: boolean,
+) {
+    const url = `/rest/v1/rpc/confirm_class_attendance`;
+    const body = { p_booking_id, p_user_id, p_role, p_confirmed };
+    const resp = await supabaseAuth.post<any>(url, body);
+    return resp.data;
+}

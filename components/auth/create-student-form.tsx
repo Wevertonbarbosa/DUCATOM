@@ -28,12 +28,12 @@ export function CreateStudentForm() {
         );
 
         if (result) {
-            router.push('/');
+            router.push('/admin/dashboard-admin');
         }
     };
 
     const handleCancel = () => {
-        router.push('/');
+        router.push('/admin/dashboard-admin');
     };
 
     return (

@@ -10,18 +10,18 @@ import { useDashboardAdmin } from '@/hooks/useDashboard_Admin';
 import { useMentorAgendaGrid } from '@/hooks/useMentorAgendaGrid';
 import { StudentsBookingsList } from './students-bookings-list';
 
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { ScrollArea } from '@/components/ui/scroll-area';
+
 export function ScheduleTrackingLayout() {
     const [activeTab, setActiveTab] = useState<'alunos' | 'mentores'>(
-        'mentores'
+        'mentores',
     );
     const [selectedMentor, setSelectedMentor] = useState<string>();
     const [selectedStudent, setSelectedStudent] = useState<string>();
     const [mentorId, setMentorId] = useState<number | null>(null);
     const [studentId, setStudentId] = useState<number | null>(null);
 
-    /* =======================
-        Hooks
-    ======================= */
     const {
         loading: dashboardLoading,
         mentorData,
@@ -38,9 +38,6 @@ export function ScheduleTrackingLayout() {
         getMentorAgendaGrid,
     } = useMentorAgendaGrid();
 
-    /* =======================
-        Load inicial (mentores)
-    ======================= */
     const didRun = useRef(false);
 
     useEffect(() => {
@@ -59,9 +56,6 @@ export function ScheduleTrackingLayout() {
         }
     }, [activeTab, byListStudenteAdmin]);
 
-    /* =======================
-        Seleção de mentor
-    ======================= */
     function handleMentorChange(value: string) {
         const id = Number(value);
 
@@ -72,9 +66,6 @@ export function ScheduleTrackingLayout() {
         getMentorAgendaGrid(id);
     }
 
-    /* =======================
-        Seleção de aluno
-    ======================= */
     function handleStudentChange(value: string) {
         const id = Number(value);
 
@@ -83,8 +74,6 @@ export function ScheduleTrackingLayout() {
     }
 
     const hasMentorSelected = mentorId !== null;
-
-    // const hasStudentSelected = studentId !== null;
 
     return (
         <div className="min-h-screen bg-[#083d71] text-white p-4 md:p-6 lg:p-8">
@@ -127,6 +116,94 @@ export function ScheduleTrackingLayout() {
                         {gridLoading && hasMentorSelected && (
                             <div className="h-80 bg-[#0a4d8f]/30 rounded-xl animate-pulse" />
                         )}
+
+                        <div className="w-full flex justify-end">
+                            <Card className="w-full max-w-xs border-none sm:max-w-sm bg-[#083d71] p-1">
+                                
+                                <CardContent className="p-0">
+                                    <ScrollArea className="h-24 px-4 pb-4">
+                                        <div className="space-y-3 text-sm">
+                                            <div className="flex items-center gap-2">
+                                                <span className="w-4 h-4 rounded-sm bg-green-600" />
+                                                <span className="text-white">
+                                                    Disponível
+                                                </span>
+                                            </div>
+
+                                            <div className="flex items-center gap-2">
+                                                <span className="w-4 h-4 rounded-sm bg-yellow-500" />
+                                                <span className="text-white">
+                                                    Pendente de aprovação
+                                                </span>
+                                            </div>
+
+                                            <div className="flex items-center gap-2">
+                                                <span className="w-4 h-4 rounded-sm bg-purple-600" />
+                                                <span className="text-white">
+                                                    Reservado
+                                                </span>
+                                            </div>
+
+                                            <div className="flex items-center gap-2">
+                                                <span className="w-4 h-4 rounded-sm bg-orange-600" />
+                                                <span className="text-white">
+                                                    Negado pelo aluno
+                                                </span>
+                                            </div>
+
+                                            <div className="flex items-center gap-2">
+                                                <span className="w-4 h-4 rounded-sm bg-pink-600" />
+                                                <span className="text-white">
+                                                    Cancelado pelo aluno
+                                                </span>
+                                            </div>
+
+                                            <div className="flex items-center gap-2">
+                                                <span className="w-4 h-4 rounded-sm bg-stone-500" />
+                                                <span className="text-white">
+                                                    Negado pelo mentor
+                                                </span>
+                                            </div>
+
+                                            <div className="flex items-center gap-2">
+                                                <span className="w-4 h-4 rounded-sm bg-red-800" />
+                                                <span className="text-white">
+                                                    Cancelado pelo mentor
+                                                </span>
+                                            </div>
+
+                                            <div className="flex items-center gap-2">
+                                                <span className="w-4 h-4 rounded-sm bg-gradient-to-br from-emerald-700 via-emerald-800 to-gray-300" />
+                                                <span className="text-white">
+                                                    Concluído
+                                                </span>
+                                            </div>
+
+                                            <div className="flex items-center gap-2">
+                                                <span className="w-4 h-4 rounded-sm bg-linear-to-r from-[#8B2F4E] to-[#4B1F3A]" />
+                                                <span className="text-white">
+                                                    No-show (conflito)
+                                                </span>
+                                            </div>
+
+                                            <div className="flex items-center gap-2">
+                                                <span className="w-4 h-4 rounded-sm bg-black" />
+                                                <span className="text-white">
+                                                    Negado por inatividade
+                                                </span>
+                                            </div>
+
+                                            <div className="flex items-center gap-2">
+                                                <span className="w-4 h-4 rounded-sm bg-blue-600" />
+                                                <span className="text-white">
+                                                    Indisponível
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </ScrollArea>
+                                </CardContent>
+                            </Card>
+                        </div>
 
                         {/* GRID */}
                         {!gridLoading &&

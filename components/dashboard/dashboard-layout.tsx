@@ -10,7 +10,8 @@ import { useEffect, useRef, useState } from 'react';
 import { useDashboardUser } from '@/hooks/useDashboard';
 import { ModalValidateMentor } from './modal-mentor-validate';
 import { useBookingsListSummary } from '@/hooks/use-ListBookings';
-
+import { useClassConfirmation } from '@/hooks/use-ClassConfirmation';
+import { ModalClassConfirmation } from './modalClassConfirmation';
 
 export function DashboardLayout() {
     const { user } = useAuth();
@@ -21,6 +22,24 @@ export function DashboardLayout() {
 
     const [openValidateMentorModal, setOpenValidateMentorModal] =
         useState(false);
+
+    const BLOCKING_STATUSES = ['pendente_aprovacao', 'reservado'];
+
+    const actorId =
+        user?.role === 'MENTOR'
+            ? mentorData?.id
+            : user?.role === 'STUDENT'
+              ? studentData?.id
+              : undefined;
+
+    const {
+        fetchPendingConfirmations,
+        confirmOrDenyBooking,
+        hasPendingConfirmation,
+        currentBooking,
+        pendingBookings,
+        loading: confirmationLoading,
+    } = useClassConfirmation();
 
     const userData = {
         name: user?.nome.split(' ')[0] || 'Usuário',
@@ -37,11 +56,6 @@ export function DashboardLayout() {
         byIdUser();
     }, []);
 
-    /**
-     * useEffect 2️⃣
-     * Responsável APENAS por validar o nível do mentor
-     * e abrir o modal se necessário
-     */
     useEffect(() => {
         localStorage.setItem('mentor_id', JSON.stringify(mentorData));
 
@@ -66,7 +80,22 @@ export function DashboardLayout() {
         }
     }, [user?.role, mentorData?.nivel, studentData?.id]);
 
-    
+    useEffect(() => {
+        if (!user?.role) return;
+
+        if (user.role === 'MENTOR') {
+            if (!mentorData?.id) return;
+
+            fetchPendingConfirmations(mentorData.id);
+        }
+
+        if (user.role === 'STUDENT') {
+            if (!studentData?.id) return;
+
+            fetchPendingConfirmations(studentData.id);
+        }
+    }, [user?.role, mentorData?.id, studentData?.id]);
+
     const refreshBookings = async () => {
         if (user?.role === 'STUDENT') {
             if (!studentData?.id) return;
@@ -78,6 +107,12 @@ export function DashboardLayout() {
             await byBookingsListSummary(mentorData.id);
         }
     };
+
+    const hasBlockingBooking =
+        Array.isArray(listBookings) &&
+        listBookings.some((booking) =>
+            BLOCKING_STATUSES.includes(booking.status),
+        );
 
     return (
         <div className="min-h-screen flex flex-col">
@@ -111,7 +146,7 @@ export function DashboardLayout() {
                     />
 
                     {/* Navegação principal */}
-                    <DashboardNavigation />
+                    <DashboardNavigation hasBookings={hasBlockingBooking} />
 
                     {/* Botão de ajuda */}
                     <HelpButton />
@@ -122,6 +157,20 @@ export function DashboardLayout() {
                 open={openValidateMentorModal}
                 mentorLevel={mentorData?.nivel}
                 minimumLessons={4}
+            />
+
+            <ModalClassConfirmation
+                open={hasPendingConfirmation}
+                bookings={pendingBookings}
+                loading={confirmationLoading}
+                onConfirm={(bookingId) => {
+                    if (!actorId) return;
+                    confirmOrDenyBooking(bookingId, true, actorId);
+                }}
+                onDeny={(bookingId) => {
+                    if (!actorId) return;
+                    confirmOrDenyBooking(bookingId, false, actorId);
+                }}
             />
         </div>
     );

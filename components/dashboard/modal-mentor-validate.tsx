@@ -31,7 +31,7 @@ export function ModalValidateMentor({
                 className="max-w-md bg-[#083d71] border-[#0a4d8f] sm:max-w-lg"
             >
                 <DialogHeader className="space-y-4 text-center">
-                    <DialogTitle className="text-2xl font-bold text-white sm:text-3xl">
+                    <DialogTitle className="text-2xl text-center font-bold text-white sm:text-3xl">
                         Valide suas primeiras aulas!
                     </DialogTitle>
 
