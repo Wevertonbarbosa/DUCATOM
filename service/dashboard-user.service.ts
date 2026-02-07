@@ -8,7 +8,7 @@ import {
     searchPendingConfirmationRequest,
     searchStudentRequest,
     searchTotalTimeWeekdayRequest,
-} from '@/api/endpoints/dashboard-users.endpoint';
+} from '@/service/endpoints/dashboard-users.endpoint';
 
 //BUSCA ALUNOS POR ID NA TABELA AUTH
 export async function byIdStudentService(id: string) {

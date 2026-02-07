@@ -11,7 +11,6 @@ import { useDashboardUser } from './useDashboard';
 import { WeekDayData } from '@/model/user-model';
 import { TimeSlot } from '@/model/time-availiability-mentor';
 import { mapNumberToDay } from '@/utils/mapWeekday';
-import { useMentorWeekday } from '@/contexts/MentorWeekdayContext';
 
 //POST CADASTRA OS DIAS DISPONIVEL DO MENTOR
 export function useAvailabilityMentor() {

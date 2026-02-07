@@ -1,5 +1,5 @@
 // src/service/admin-auth.service.ts
-import { supabaseLoginRequest } from '@/api/endpoints/supabaseAuth.endpoint';
+import { supabaseLoginRequest } from '@/service/endpoints/supabaseAuth.endpoint';
 
 export async function adminLoginService(email: string, password: string) {
     try {

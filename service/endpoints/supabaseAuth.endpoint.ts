@@ -1,4 +1,4 @@
-import { supabaseAuth } from '@/api/supabaseAuth.api';
+import { supabaseAuth } from '@/service/endpoints/supabaseAuth.api';
 
 //LOGIN
 export async function supabaseLoginRequest(email: string, password: string) {

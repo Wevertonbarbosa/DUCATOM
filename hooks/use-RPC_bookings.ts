@@ -176,9 +176,7 @@ export function useRPC_Bookings() {
     ) {
         setLoading(true);
         try {
-            // if (!booking_id || !mentor_id) {
-            //     throw new Error('ID do Mentor ou Booking não encontrado');
-            // }
+           
 
             const response = await byCreateBookingStudentService(
                 aluno_id,

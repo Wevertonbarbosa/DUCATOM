@@ -1,4 +1,4 @@
-import { createBookingAgendaRequest } from '@/api/endpoints/create-booking-agenda';
+import { createBookingAgendaRequest } from '@/service/endpoints/create-booking-agenda';
 
 //POST ALUNO CADASTRA RESERVA/AULA COM MENTOR
 export async function createBookingAgendaService(

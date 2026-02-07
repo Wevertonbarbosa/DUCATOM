@@ -3,7 +3,7 @@ import {
     cancelLessonMentorRequest,
     cancelLessonStudentRequest,
     createBookingStudentRequest,
-} from '@/api/endpoints/rpc-booking';
+} from '@/service/endpoints/rpc-booking';
 
 // MENTOR/ALUNO APROVA OU NEGA A AGENDA COM O ALUNO QUE SOLICITOU SEM O MEET AINDA
 export async function byApproveOrDenyLessonUserService(

@@ -1,4 +1,4 @@
-import { supabaseAuth } from '@/api/supabaseAuth.api';
+import { supabaseAuth } from '@/service/endpoints/supabaseAuth.api';
 
 //POST DE CRIAR OS DIAS QUE O MENTOR ESTA DISPONIVEL
 export async function createWeekdayMentorRequest(

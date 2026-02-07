@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import {  useState } from 'react';
 import { toast } from 'sonner';
 
 import { Module, Lesson, MentorAula } from '@/model/lesson-mentor';

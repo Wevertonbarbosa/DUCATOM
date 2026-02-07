@@ -1,5 +1,5 @@
 import { getCookie } from '@/utils/cookies';
-import { supabaseEdgeFunction } from '../supabaseAuth.api';
+import { supabaseEdgeFunction } from './supabaseAuth.api';
 
 // MENTOR/ALUNO APROVA OU NEGA A AGENDA COM O ALUNO QUE SOLICITOU SEM O MEET AINDA
 export async function ApproveOrDenyLessonUserRequest(

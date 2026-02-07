@@ -1,4 +1,4 @@
-import { supabaseAuth } from '../supabaseAuth.api';
+import { supabaseAuth } from './supabaseAuth.api';
 
 //POST ALUNO FAVORITA UM MENTOR
 export async function favoriteMentorRequest(

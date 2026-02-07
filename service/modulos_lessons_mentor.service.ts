@@ -5,7 +5,7 @@ import {
     sendMentorLessonRequest,
     updateMentorLessonStatusFeedbackRequest,
     updateMentorLessonStatusRequest,
-} from '@/api/endpoints/module-lesson-mentor';
+} from '@/service/endpoints/module-lesson-mentor';
 
 //BUSCA TODOS OS MODULOS DAS AULAS
 export async function searchModulosService() {

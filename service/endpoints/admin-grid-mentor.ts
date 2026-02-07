@@ -1,4 +1,4 @@
-import { supabaseAuth } from '../supabaseAuth.api';
+import { supabaseAuth } from '../../service/endpoints/supabaseAuth.api';
 
 // BUSCA A AGENDA GRID DO MENTOR COM TODOS OS SLOTS (DISPONIVEIS, RESERVADO, CANCELADO)
 export async function byGridMentorRequest(p_mentor_id: number) {

@@ -1,4 +1,4 @@
-import { supabaseAuth } from '../supabaseAuth.api';
+import { supabaseAuth } from './supabaseAuth.api';
 
 //BUSCA TODOS OS MODULOS DAS AULAS
 export async function searchModulosRequest() {

@@ -1,7 +1,7 @@
 import {
     createMentorRequest,
     createStudentRequest,
-} from '@/api/endpoints/create-user.api';
+} from '@/service/endpoints/create-user.api';
 
 export async function createStudentService(
     name: string,

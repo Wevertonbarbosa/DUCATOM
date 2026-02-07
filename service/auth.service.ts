@@ -1,4 +1,4 @@
-import { supabaseLoginRequest } from '@/api/endpoints/supabaseAuth.endpoint';
+import { supabaseLoginRequest } from '@/service/endpoints/supabaseAuth.endpoint';
 
 export async function loginService(email: string, password: string) {
     try {

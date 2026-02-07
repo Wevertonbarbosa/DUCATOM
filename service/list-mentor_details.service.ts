@@ -1,4 +1,4 @@
-import { searchListMentor_Agenda_Request } from '@/api/endpoints/list-mentor_agenda';
+import { searchListMentor_Agenda_Request } from '@/service/endpoints/list-mentor_agenda';
 
 export async function searchListMentor_Agenda_Service() {
     try {

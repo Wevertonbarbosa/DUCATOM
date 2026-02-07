@@ -1,4 +1,4 @@
-import { supabaseAuth } from '../supabaseAuth.api';
+import { supabaseAuth } from './supabaseAuth.api';
 
 // MENTOR/ALUNO BUSCAR BOOKINGS/RESERVAS PERSONALIZADO VIA RPC rpc_get_agenda_dashboard
 export async function byBookingsListSummaryRequest(p_user_id: number) {

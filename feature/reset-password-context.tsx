@@ -7,7 +7,7 @@ import {
     useEffect,
     ReactNode,
 } from 'react';
-import { supabase } from '@/api/supabaseAuth.api';
+import { supabase } from '@/service/endpoints/supabaseAuth.api';
 import { toast } from 'sonner';
 
 interface ResetPasswordContextProps {

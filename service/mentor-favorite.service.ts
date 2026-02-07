@@ -1,7 +1,7 @@
 import {
     favoriteMentorRequest,
     searchMentorByFavoriteRequest,
-} from '@/api/endpoints/mentor-favorite';
+} from '@/service/endpoints/mentor-favorite';
 
 //POST ALUNO FAVORITA UM MENTOR
 export async function favoriteMentorService(

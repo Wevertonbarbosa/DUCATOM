@@ -1,4 +1,4 @@
-import { byBookingsListSummaryRequest } from '@/api/endpoints/list-bookings-summary';
+import { byBookingsListSummaryRequest } from '@/service/endpoints/list-bookings-summary';
 
 export async function byBookingsListSummaryService(p_user_id: number) {
     try {

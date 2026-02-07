@@ -1,4 +1,4 @@
-import { supabaseAuth } from '@/api/supabaseAuth.api';
+import { supabaseAuth } from '@/service/endpoints/supabaseAuth.api';
 
 //BUSCA ALUNOS POR ID NA TABELA AUTH
 export async function searchByIdStudentRequest(id: string) {

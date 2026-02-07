@@ -5,7 +5,7 @@ import {
     deleteTimeSlotMentorRequest,
     searchByWeekDayMentorRequest,
     searchByWeekDayTimeSlotMentorRequest,
-} from '@/api/endpoints/create-availability-mentor';
+} from '@/service/endpoints/create-availability-mentor';
 
 //POST CADASTRA OS DIAS DISPONIVEL DO MENTOR
 export async function sendAvailabilityMentorService(

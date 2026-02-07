@@ -1,5 +1,6 @@
-import { byGridMentorRequest } from '@/api/endpoints/admin-grid-mentor';
+
 import { MentorAgendaGridResponse } from '@/model/grid_mentor-model';
+import { byGridMentorRequest } from './endpoints/admin-grid-mentor';
 
 
 export async function byGridMentorService(p_mentor_id: number) {

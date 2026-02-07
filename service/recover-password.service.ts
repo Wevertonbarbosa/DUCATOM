@@ -1,4 +1,4 @@
-import { supabaseResetPasswordRequest } from '@/api/endpoints/supabaseAuth.endpoint';
+import { supabaseResetPasswordRequest } from '@/service/endpoints/supabaseAuth.endpoint';
 
 export async function recoverPasswordRequest(email: string) {
    

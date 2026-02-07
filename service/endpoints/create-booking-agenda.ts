@@ -1,4 +1,4 @@
-import { supabaseAuth } from '../supabaseAuth.api';
+import { supabaseAuth } from './supabaseAuth.api';
 
 //POST ALUNO CADASTRA RESERVA/AULA COM MENTOR
 export async function createBookingAgendaRequest(
