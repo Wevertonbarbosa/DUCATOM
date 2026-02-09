@@ -47,6 +47,7 @@ export function middleware(request: NextRequest) {
         '/admin-login',
         '/esqueceu-senha',
         '/email-enviado',
+        '/redefinir-senha',
     ];
 
     const isPublicRoute = PUBLIC_ROUTES.some(
