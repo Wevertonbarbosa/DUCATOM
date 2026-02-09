@@ -17,8 +17,8 @@ export function useCreateStudent() {
 
             const result = await createStudentService(name, email, password);
 
-            if (!result.success) {
-                toast.error(result.message || 'Erro no cadastro do aluno.');
+            if (!result?.success) {
+                toast.error(result?.message || 'Erro no cadastro do aluno.');
                 return null;
             }
 

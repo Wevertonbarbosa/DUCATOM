@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { createMentorService } from '@/service/create-user.service';
 import { toast } from 'sonner';
 
+
+
 export function useCreateMentor() {
     const [loading, setLoading] = useState(false);
 
@@ -12,8 +14,8 @@ export function useCreateMentor() {
 
         const result = await createMentorService(name, email, password);
 
-        if (!result.success) {
-            toast.error(result.message || 'Erro no cadastro do Mentor.');
+        if (!result?.success) {
+            toast.error(result?.message || 'Erro no cadastro do Mentor.');
 
             setLoading(false);
             return null;

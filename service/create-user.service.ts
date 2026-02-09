@@ -4,6 +4,12 @@ import {
     createStudentRequest,
 } from '@/service/endpoints/create-user.api';
 
+const errorMessages: Record<string, string> = {
+    user_already_exists: 'Este e-mail já está cadastrado na plataforma.',
+    invalid_email: 'E-mail inválido.',
+    weak_password: 'A senha deve ser mais forte.',
+};
+
 export async function createStudentService(
     name: string,
     email: string,
@@ -13,12 +19,14 @@ export async function createStudentService(
         const data = await createStudentRequest(name, email, password);
         return { success: true, data };
     } catch (error: any) {
-        return {
-            success: false,
-            message:
-                error.response?.data?.message ||
-                'Erro ao realizar cadastro de aluno.',
-        };
+        if (error.error.error_code) {
+            return {
+                success: false,
+                message:
+                    errorMessages[error.error.error_code] ||
+                    'Erro ao realizar cadastro do Aluno.',
+            };
+        }
     }
 }
 
@@ -31,12 +39,14 @@ export async function createMentorService(
         const data = await createMentorRequest(name, email, password);
         return { success: true, data };
     } catch (error: any) {
-        return {
-            success: false,
-            message:
-                error.response?.data?.message ||
-                'Erro ao realizar cadastro de Mentor.',
-        };
+        if (error.error.error_code) {
+            return {
+                success: false,
+                message:
+                    errorMessages[error.error.error_code] ||
+                    'Erro ao realizar cadastro de Mentor.',
+            };
+        }
     }
 }
 
@@ -49,11 +59,13 @@ export async function createAdminService(
         const data = await createAdminRequest(name, email, password);
         return { success: true, data };
     } catch (error: any) {
-        return {
-            success: false,
-            message:
-                error.response?.data?.message ||
-                'Erro ao realizar cadastro de Administrador.',
-        };
+        if (error.error.error_code) {
+            return {
+                success: false,
+                message:
+                    errorMessages[error.error.error_code] ||
+                    'Erro ao realizar cadastro do Administrador.',
+            };
+        }
     }
 }
