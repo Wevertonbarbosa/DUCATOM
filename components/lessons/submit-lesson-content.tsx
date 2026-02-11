@@ -119,7 +119,7 @@ export function SubmitLessonContent({
 
                     <div className="bg-[#083d71]/30 rounded-lg p-4">
                         <p className="text-sm md:text-base text-white/90 text-center">
-                            Não esqueça de respeitar a metodologia apresentada.
+                            A apostila de suporte para envio esta na pagina anteiror
                         </p>
                     </div>
                 </div>
