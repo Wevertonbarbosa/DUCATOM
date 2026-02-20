@@ -117,7 +117,7 @@ export function DashboardLayout() {
     return (
         <div className="min-h-screen flex flex-col">
         
-            <DashboardHeader />
+            <DashboardHeader hasBookings={hasBlockingBooking} />
 
             <main className="flex-1 px-4 py-6 md:px-8 md:py-8 lg:max-w-4xl lg:mx-auto lg:w-full">
                 <div className="space-y-6 md:space-y-8">

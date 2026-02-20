@@ -12,7 +12,11 @@ import {
 import { useAuth } from '@/contexts/auth-context';
 import { useRouter } from 'next/navigation';
 
-export function DashboardHeader() {
+type DashboardNavigationProps = {
+    hasBookings: boolean;
+};
+
+export function DashboardHeader({ hasBookings }: DashboardNavigationProps) {
     const router = useRouter();
     const { user, setUser } = useAuth();
 
@@ -56,25 +60,32 @@ export function DashboardHeader() {
                         <nav className="flex flex-col gap-2 mt-8">
                             {user?.role === 'STUDENT' && (
                                 <>
-                                    <a
-                                        href="/selecionar-mentor"
-                                        className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-[#0a5491] transition-all group"
+                                    <Button
+                                        className="w-full flex justify-start bg-transparent text-white"
+                                        disabled={hasBookings}
                                     >
-                                        <Calendar className="h-5 w-5 text-[#f0e087]" />
-                                        <span className="text-base font-medium group-hover:text-[#f0e087] transition-colors">
-                                            Agendar Aula
-                                        </span>
-                                    </a>
+                                        <a
+                                            href="/selecionar-mentor"
+                                            className="flex items-center gap-3 ps-0 px-4 py-3 rounded-lg hover:bg-[#0a5491] transition-all group"
+                                        >
+                                            <Calendar className="h-10 w-10 text-[#f0e087]" />
+                                            <span className="text-base font-medium group-hover:text-[#f0e087] transition-colors">
+                                                Agendar Aula
+                                            </span>
+                                        </a>
+                                    </Button>
 
-                                    <a
-                                        href="/materiais-didaticos"
-                                        className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-[#0a5491] transition-all group"
-                                    >
-                                        <BookOpen className="h-5 w-5 text-[#f0e087]" />
-                                        <span className="text-base font-medium group-hover:text-[#f0e087] transition-colors">
-                                            Materiais Didáticos
-                                        </span>
-                                    </a>
+                                    <Button className="w-full flex justify-start bg-transparent text-white">
+                                        <a
+                                            href="/materiais-didaticos"
+                                            className="flex items-center gap-3 ps-0 px-4 py-3 rounded-lg hover:bg-[#0a5491] transition-all group"
+                                        >
+                                            <BookOpen className="h-5 w-5 text-[#f0e087]" />
+                                            <span className="text-base font-medium group-hover:text-[#f0e087] transition-colors">
+                                                Materiais Didáticos
+                                            </span>
+                                        </a>
+                                    </Button>
                                 </>
                             )}
 

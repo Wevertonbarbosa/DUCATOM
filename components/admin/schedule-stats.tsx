@@ -15,18 +15,14 @@ export function ScheduleStats({
     reservedSlots,
     selectedMentor,
 }: ScheduleStatsProps) {
-    const {
-        loading,
-        byMentorIdAdmin,
-        mentorId,
-    } = useDashboardAdmin();
+    const { loading, byMentorIdAdmin, mentorId } = useDashboardAdmin();
 
     const didRun = useRef(false);
 
     useEffect(() => {
         if (didRun.current) return;
         didRun.current = true;
-      
+
         byMentorIdAdmin(selectedMentor);
     }, [byMentorIdAdmin]);
 
@@ -39,7 +35,6 @@ export function ScheduleStats({
                     </CardTitle>
                 </CardHeader>
 
-                
                 <CardContent
                     className="
                             space-y-4
@@ -57,7 +52,7 @@ export function ScheduleStats({
                         <span className="text-gray-300 font-semibold text-base">
                             Nome
                         </span>
-                       
+
                         <span className="font-semibold text-white">
                             {mentorId?.nome ?? '-'}
                         </span>
@@ -93,7 +88,9 @@ export function ScheduleStats({
                                     : 'bg-red-600 hover:bg-red-700'
                             }
                         >
-                            {mentorId?.agenda_publicada ? 'Ativa' : 'Desativada'}
+                            {mentorId?.agenda_publicada
+                                ? 'Ativa'
+                                : 'Desativada'}
                         </Badge>
                     </div>
 

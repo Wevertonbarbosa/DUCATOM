@@ -25,11 +25,16 @@ import {
 interface ScheduleGridProps {
     agenda: MentorAgendaDay[];
     mentor: MentorData[];
+    mentorChoosen: MentorData;
 }
 
 type TimeSlot = MentorAgendaSlot;
 
-export function ScheduleGrid({ agenda, mentor }: ScheduleGridProps) {
+export function ScheduleGrid({
+    agenda,
+    mentor,
+    mentorChoosen,
+}: ScheduleGridProps) {
     const [selectedSlot, setSelectedSlot] = useState<TimeSlot | null>(null);
     const [showReservedModal, setShowReservedModal] = useState(false);
     const [showCanceledModal, setShowCanceledModal] = useState(false);
@@ -174,20 +179,16 @@ export function ScheduleGrid({ agenda, mentor }: ScheduleGridProps) {
     return (
         <>
             <div className="bg-[#041c3a]/50 rounded-lg p-4">
-                
-
                 <div className="md:hidden space-y-4">
                     {timeSlots.map((time) => (
                         <div
                             key={time}
                             className="bg-[#083d71] rounded-lg p-3 space-y-3 shadow-md"
                         >
-                          
                             <div className="text-center text-sm font-bold text-[#f0e087]">
                                 {time}
                             </div>
 
-                          
                             <div className="space-y-2">
                                 {dates.map((date) => {
                                     const slot = date.slots.find((s) =>
@@ -225,10 +226,8 @@ export function ScheduleGrid({ agenda, mentor }: ScheduleGridProps) {
                     ))}
                 </div>
 
-                
                 <div className="hidden md:block overflow-x-auto custom-scrollbar">
                     <div className="min-w-[1200px]">
-                       
                         <div className="grid grid-cols-[120px_repeat(auto-fit,minmax(120px,1fr))] gap-2 mb-3">
                             <div className="flex items-center justify-center font-medium text-gray-200">
                                 Horários
@@ -244,19 +243,16 @@ export function ScheduleGrid({ agenda, mentor }: ScheduleGridProps) {
                             ))}
                         </div>
 
-                       
                         <div className="space-y-2">
                             {timeSlots.map((time) => (
                                 <div
                                     key={time}
                                     className="grid grid-cols-[120px_repeat(auto-fit,minmax(120px,1fr))] gap-2"
                                 >
-                                  
                                     <div className="flex items-center justify-center text-sm text-gray-300 font-medium">
                                         {time}
                                     </div>
 
-                                  
                                     {dates.map((date) => {
                                         const slot = date.slots.find((s) =>
                                             s.time.startsWith(time),
@@ -299,7 +295,6 @@ export function ScheduleGrid({ agenda, mentor }: ScheduleGridProps) {
                                                     </TooltipContent>
                                                 </Tooltip>
 
-                                             
                                                 {slot.history &&
                                                     slot.history.length > 0 && (
                                                         <Popover>
@@ -406,11 +401,10 @@ export function ScheduleGrid({ agenda, mentor }: ScheduleGridProps) {
                 </div>
             </div>
 
-           
             <ReservedSlotModal
                 isOpen={showReservedModal}
                 onClose={() => setShowReservedModal(false)}
-                mentorName={mentor[0]?.nome ?? ''}
+                mentorName={mentorChoosen.nome ?? ''}
                 studentName={selectedSlot?.nome_aluno ?? ''}
                 time={selectedTime}
             />
@@ -418,7 +412,7 @@ export function ScheduleGrid({ agenda, mentor }: ScheduleGridProps) {
             <CanceledSlotModal
                 isOpen={showCanceledModal}
                 onClose={() => setShowCanceledModal(false)}
-                mentorName={mentor[0]?.nome ?? ''}
+                mentorName={mentorChoosen.nome ?? ''}
                 studentName={selectedSlot?.nome_aluno ?? ''}
                 colorBg={
                     selectedSlot

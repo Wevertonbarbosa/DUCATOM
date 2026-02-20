@@ -12,6 +12,7 @@ import { StudentsBookingsList } from './students-bookings-list';
 
 import { Card, CardContent } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { MentorData } from '@/model/user-model';
 
 export function ScheduleTrackingLayout() {
     const [activeTab, setActiveTab] = useState<'alunos' | 'mentores'>(
@@ -21,6 +22,9 @@ export function ScheduleTrackingLayout() {
     const [selectedStudent, setSelectedStudent] = useState<string>();
     const [mentorId, setMentorId] = useState<number | null>(null);
     const [studentId, setStudentId] = useState<number | null>(null);
+
+    const [selectedMentorData, setSelectedMentorData] =
+        useState<MentorData | null>(null);
 
     const {
         loading: dashboardLoading,
@@ -62,6 +66,10 @@ export function ScheduleTrackingLayout() {
         setSelectedMentor(value);
         setMentorId(id);
 
+        const mentorFound = mentorData?.find((mentor) => mentor.id === id);
+
+        setSelectedMentorData(mentorFound ?? null);
+
         getMentorScheduleStats(id);
         getMentorAgendaGrid(id);
     }
@@ -78,7 +86,6 @@ export function ScheduleTrackingLayout() {
     return (
         <div className="min-h-screen bg-[#083d71] text-white p-4 md:p-6 lg:p-8">
             <div className="max-w-[1400px] mx-auto space-y-6">
-               
                 <ScheduleTrackingHeader
                     activeTab={activeTab}
                     onTabChange={setActiveTab}
@@ -93,7 +100,6 @@ export function ScheduleTrackingLayout() {
 
                 {activeTab === 'mentores' && (
                     <>
-                      
                         {dashboardLoading && hasMentorSelected && (
                             <ScheduleStatsSkeleton />
                         )}
@@ -112,14 +118,12 @@ export function ScheduleTrackingLayout() {
                                 />
                             )}
 
-                      
                         {gridLoading && hasMentorSelected && (
                             <div className="h-80 bg-[#0a4d8f]/30 rounded-xl animate-pulse" />
                         )}
 
                         <div className="w-full flex justify-center sm:justify-end">
                             <Card className="w-full max-w-xs border-none sm:max-w-sm bg-[#083d71] p-1">
-                                
                                 <CardContent className="p-0">
                                     <ScrollArea className="h-24 px-4 pb-4">
                                         <div className="space-y-3 text-sm">
@@ -205,7 +209,6 @@ export function ScheduleTrackingLayout() {
                             </Card>
                         </div>
 
-                      
                         {!gridLoading &&
                             agendaGrid &&
                             agendaGrid.agenda_publicada &&
@@ -213,10 +216,10 @@ export function ScheduleTrackingLayout() {
                                 <ScheduleGrid
                                     agenda={agendaGrid.days}
                                     mentor={mentorData ?? []}
+                                    mentorChoosen={selectedMentorData!}
                                 />
                             )}
 
-                      
                         {!gridLoading &&
                             agendaGrid &&
                             !agendaGrid.agenda_publicada && (
@@ -231,7 +234,6 @@ export function ScheduleTrackingLayout() {
                                 </div>
                             )}
 
-                      
                         {!hasMentorSelected && (
                             <div className="flex flex-col items-center justify-center min-h-[400px] bg-[#0a4d8f]/30 rounded-xl border-2 border-dashed border-[#0a4d8f] p-8">
                                 <div className="text-center space-y-4 max-w-md">
@@ -266,7 +268,6 @@ export function ScheduleTrackingLayout() {
                     </>
                 )}
 
-             
                 {activeTab === 'alunos' && (
                     <>
                         <StudentsBookingsList studentId={studentId} />

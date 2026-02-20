@@ -51,7 +51,6 @@ export function ScheduleTrackingHeader({
         const updateDateTime = () => {
             const now = new Date();
 
-          
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
             const seconds = String(now.getSeconds()).padStart(2, '0');
@@ -101,7 +100,7 @@ export function ScheduleTrackingHeader({
 
     return (
         <div className="space-y-4">
-            <div className='w-full flex justify-end'>
+            <div className="w-full flex justify-end">
                 <Button
                     onClick={logout}
                     variant="ghost"
@@ -121,14 +120,13 @@ export function ScheduleTrackingHeader({
                     <span className="hidden sm:inline">Sair</span>
                 </Button>
             </div>
-           
+
             <div
                 className="
     flex flex-col gap-4 pb-3
     md:flex-row md:items-center md:justify-between
   "
             >
-                
                 <div className="order-1 md:order-2">
                     <TooltipProvider>
                         <Tooltip>
@@ -169,7 +167,7 @@ export function ScheduleTrackingHeader({
                     </TooltipProvider>
                 </div>
 
-               <div
+                <div
                     className="
       order-2 md:order-1
       flex items-center gap-3
@@ -210,9 +208,7 @@ export function ScheduleTrackingHeader({
                 </div>
             </div>
 
-            
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-            
                 <div className="flex flex-col gap-1">
                     <div className="text-2xl md:text-3xl font-bold text-[#f0e087]">
                         {currentTime}
@@ -223,7 +219,6 @@ export function ScheduleTrackingHeader({
                 </div>
 
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-                  
                     <div className="flex gap-2">
                         <button
                             onClick={() => onTabChange('alunos')}
@@ -249,7 +244,6 @@ export function ScheduleTrackingHeader({
 
                     {activeTab === 'mentores' && (
                         <>
-                            
                             <Select
                                 value={selectedMentor}
                                 onValueChange={onMentorChange}
